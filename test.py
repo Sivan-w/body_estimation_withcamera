@@ -1,14 +1,19 @@
-# 内部模块的调试
+# import tkinter
+#
+# top = tkinter.Tk()
+# top.mainloop()
 
+from show_infor import ui_show
+import cv2
 import paddlehub as hub
-from pandas import array
-import caculate_angle as ca
-import numpy as np
-from get_images import from_cra as cra
 
-img = cra(1)
+cap = cv2.VideoCapture(0)
 model = hub.Module(name='openpose_body_estimation')
-result = model.predict(img, visualization=True)
-p = ca.PoseAnalyzer(result)
-res = p.logic_realize()
-print(res)
+i = 0
+while(1):
+    ui_show(cap,model)
+    i = i+1
+    # if i==5:
+    #     cap.release()
+    #     cv2.destroyAllWindows()
+    #     break
