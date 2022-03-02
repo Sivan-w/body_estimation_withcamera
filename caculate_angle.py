@@ -5,7 +5,7 @@ import time as ti
 
 class PoseAnalyzer:
 
-    words = "你好"
+    words = ""
 
     def __init__(self,result):
         self.points = result['candidate'].astype('int32')
@@ -120,15 +120,16 @@ class PoseAnalyzer:
         # elif  （多人）
 
         # print(neck_angle,"yes")
-        print("颈部夹角 ",neck_angle)
-        print("腰部夹角 ",waist_angle)
-        print("左膝角度 {}, 右膝角度 {}".format(left_knee_angle,right_knee_angle))
-        print("------------------------------------------------")
+        # print("颈部夹角 ", neck_angle)
+        # print("腰部夹角 ", waist_angle)
+        # print("左膝角度 {}, 右膝角度 {}".format(left_knee_angle,right_knee_angle))
+        # print("------------------------------------------------")
 
 
         # 逻辑判断 脖子
         if neck_angle <120 and neck_angle != 0:
-            print('头抬高一点')
+            self.advice("脖子没了")
+            # print('头抬高一点')
         # 信息不足开始推测    
         elif  neck_angle == 0 and infer == True :
             infer = self.neck_infer_pose(self.points[p0,:2],self.points[p1,:2])
@@ -136,7 +137,7 @@ class PoseAnalyzer:
                    pass
             else:
                 self.advice("头抬高一点")
-                print('头抬高一点')
+                # print('头抬高一点')
         else:
             # self.advice("头部姿态正确")
             # print('头部姿态正确')
@@ -145,7 +146,7 @@ class PoseAnalyzer:
         # 腰部
         if waist_angle <80 and waist_angle != 0:
             self.advice("挺直腰背")
-            print("挺直腰背")
+            # print("挺直腰背")
         else:
             # self.advice("腰部姿态正确")
             # print('腰部姿态正确')
@@ -154,12 +155,12 @@ class PoseAnalyzer:
         # 膝盖
         if left_knee_angle < 100 and left_knee_angle >70 :
             self.advice("左膝姿态错误")
-            print('左膝姿态错误')
+            # print('左膝姿态错误')
         else:
             re_left_knee = True
         if  right_knee_angle < 100 and right_knee_angle >70 :
             self.advice("右膝姿态错误")
-            print('右膝姿态错误')
+            # print('右膝姿态错误')
         else:
             re_right_knee = True
         if re_right_knee == True and re_left_knee == True:
