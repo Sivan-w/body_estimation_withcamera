@@ -1,5 +1,5 @@
 import cv2
-
+import caculate_angle as ca
 
 def ui_show(cap,model):
     
@@ -15,18 +15,24 @@ def ui_show(cap,model):
    
     # print('img type:',type(img))
   
+    while 1:
+        # cap.set(4,600)
+        ret, frame = cap.read(cv2.IMREAD_ANYCOLOR)
+            # ret = False
+        if ret == False:
+            raise Exception("Exception:Fail to take photo")
+            print('failllll')
+        img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) ##BGR图转RGB图
+        cv2.imshow("capture", img)
+        result = model.predict(frame, visualization=False)
+        print('1')
+        p = ca.PoseAnalyzer(result)
+        print('2')
+        res = p.logic_realize()
+        print('3')
+        print(res)
 
-    # cap.set(4,600)
-    ret ,frame = cap.read(cv2.IMREAD_ANYCOLOR)
-        # ret = False
-    if ret == False:
-        raise  Exception("Exception:Fail to take photo")  
-    # img=cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) ##BGR图转RGB图
-    # cv2.imshow("capture", img) 
-    result = model.predict(frame,visualization=False)
-    img = result['data']
-    cv2.imshow('img',img)
-    k=cv2.waitKey(1)
-
-    return res
+        img = result['data']
+        cv2.imshow('img', img)
+        k = cv2.waitKey(1)
 

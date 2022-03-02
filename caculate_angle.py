@@ -12,7 +12,7 @@ class PoseAnalyzer:
         self.index = result['subset'].astype('int32')
 
     def neck_infer_pose(self,point_0,point_1):
-        print('由于信息不足，开始预测头部姿态.....')
+        # print('由于信息不足，开始预测头部姿态.....')
         if (point_0[1].astype('float')-point_1[1])*(point_0[1]-point_1[1])/(point_0[0]-point_1[0])/(point_0[0]-point_1[0]) < 3 :
             return False
         else:
@@ -37,7 +37,6 @@ class PoseAnalyzer:
         # C=math.degrees(math.acos((c*c-a*a-b*b)/(-2*a*b)))
         if B > 180:
             B = 360-B
-
         return B
 
     def logic_realize(self,neck=120,waist=80,infer=True):
@@ -51,15 +50,17 @@ class PoseAnalyzer:
         第二部分（time）：本次执行判断的对应的时间，用于生成日志
 
         '''
-        p1 = self.index[0,1]
+        print(2.1)
         p0 = self.index[0,0]
+        p1 = self.index[0,1]
+
         p8 = self.index[0,8]
         p9 = self.index[0,9]
         p10 = self.index[0,10]
         p11 = self.index[0,11]
         p12 = self.index[0,12]
         p13 = self.index[0,13]
-
+        print(2.2)
         # print(p8)
         # print(self.points[p8,:2],"________________________")
 
@@ -80,7 +81,8 @@ class PoseAnalyzer:
             if p8 != -1 and p1 != -1 and p0 != -1:
                 neck_angle = self.cal_ang(self.points[p8,:2],self.points[p1, :2], self.points[p0, :2])
             else:
-                self.advice("该图检测颈部姿态的关键点信息不足")
+                pass
+                # self.advice("该图检测颈部姿态的关键点信息不足")
                 # print("该图检测颈部姿态的关键点信息不足")
 
 
@@ -95,7 +97,8 @@ class PoseAnalyzer:
             elif p9 != -1 and p11 != -1 and p1 != -1:
                 waist_angle = self.cal_ang(self.points[p9,:2],self.points[p11,:2],self.points[p1,:2])
             else:
-                self.advice("该图检测腰部姿态的关键点信息不足")
+                pass
+                # self.advice("该图检测腰部姿态的关键点信息不足")
                 # print("该图检测腰部姿态的关键点信息不足")
 
             '''膝盖角度'''
@@ -103,14 +106,16 @@ class PoseAnalyzer:
                 # 左脚（也许）
                 left_knee_angle = self.cal_ang(self.points[p8,:2],self.points[p9,:2],self.points[p10,:2])
             else:
-                self.advice("该图检测左膝姿态的关键点信息不足")
-                print("该图检测左膝姿态的关键点信息不足")
+                pass
+                # self.advice("该图检测左膝姿态的关键点信息不足")
+                # print("该图检测左膝姿态的关键点信息不足")
             if p11 != -1 and p12 != -1 and p13 != -1 :
                 # 右脚
                 right_knee_angle = self.cal_ang(self.points[p11,:2],self.points[p12,:2],self.points[p13,:2])
             else:
-                self.advice("该图检测右膝姿态的关键点信息不足")
-                print("该图检测右膝姿态的关键点信息不足")
+                pass
+                # self.advice("该图检测右膝姿态的关键点信息不足")
+                # print("该图检测右膝姿态的关键点信息不足")
 
         # elif  （多人）
 
@@ -133,8 +138,8 @@ class PoseAnalyzer:
                 self.advice("头抬高一点")
                 print('头抬高一点')
         else:
-            self.advice("头部姿态正确")
-            print('头部姿态正确')
+            # self.advice("头部姿态正确")
+            # print('头部姿态正确')
             re_neck = True
 
         # 腰部
@@ -142,8 +147,8 @@ class PoseAnalyzer:
             self.advice("挺直腰背")
             print("挺直腰背")
         else:
-            self.advice("腰部姿态正确")
-            print('腰部姿态正确')
+            # self.advice("腰部姿态正确")
+            # print('腰部姿态正确')
             re_waist = True
 
         # 膝盖
@@ -158,8 +163,9 @@ class PoseAnalyzer:
         else:
             re_right_knee = True
         if re_right_knee == True and re_left_knee == True:
-            self.advice("膝盖姿态正确")
-            print('膝盖姿态正确')
+            pass
+            # self.advice("膝盖姿态正确")
+            # print('膝盖姿态正确')
 
         time = ti.strftime("%Y-%m-%d %H:%M:%S", ti.localtime())
 

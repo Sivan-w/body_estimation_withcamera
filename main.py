@@ -8,7 +8,7 @@ from get_images import from_cra as cra
 
 img = cra(1)
 model = hub.Module(name='openpose_body_estimation')
-result = model.predict(img, visualization=True)
+result = model.predict(img, visualization=False)
 p = ca.PoseAnalyzer(result)
 res = p.logic_realize()
 print(res)
